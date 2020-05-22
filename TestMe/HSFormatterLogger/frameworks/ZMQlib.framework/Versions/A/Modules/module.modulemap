@@ -1,0 +1,6 @@
+framework module ZMQlib {
+  umbrella header "ZMQlib.h"
+
+  export *
+  module * { export * }
+}

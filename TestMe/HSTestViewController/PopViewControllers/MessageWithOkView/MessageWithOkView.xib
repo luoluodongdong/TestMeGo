@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="MessageWithOkView">
+            <connections>
+                <outlet property="messageLabel" destination="vmn-UH-GiZ" id="RfK-ii-ton"/>
+                <outlet property="okBtn" destination="48S-T4-6hZ" id="YO0-Yl-GVw"/>
+                <outlet property="titleLabel" destination="NvJ-uu-Zak" id="SWd-AU-G1b"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="350" height="220"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="AWu-YP-mhD">
+                    <rect key="frame" x="24" y="171" width="306" height="5"/>
+                </box>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="vmn-UH-GiZ">
+                    <rect key="frame" x="24" y="55" width="308" height="110"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="110" id="AAz-th-lCB"/>
+                    </constraints>
+                    <textFieldCell key="cell" selectable="YES" alignment="center" title="Multiline Label" id="HZn-Gg-fe9">
+                        <font key="font" metaFont="systemUltraLight" size="18"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="48S-T4-6hZ">
+                    <rect key="frame" x="149" y="19" width="59" height="32"/>
+                    <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dSC-Fx-KtG">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                        <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                    </buttonCell>
+                    <connections>
+                        <action selector="okBtnAction:" target="-2" id="Bp4-2b-JNU"/>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NvJ-uu-Zak">
+                    <rect key="frame" x="25" y="178" width="300" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="YHj-zj-pVl"/>
+                    </constraints>
+                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Title Label" id="tgB-Lw-VLG">
+                        <font key="font" metaFont="systemThin" size="26"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="NvJ-uu-Zak" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="0Ug-YD-U5f"/>
+                <constraint firstItem="NvJ-uu-Zak" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="27" id="4P6-fI-463"/>
+                <constraint firstItem="vmn-UH-GiZ" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="26" id="DkW-dk-mEf"/>
+                <constraint firstItem="AWu-YP-mhD" firstAttribute="top" secondItem="NvJ-uu-Zak" secondAttribute="bottom" constant="4" id="IlK-rA-CML"/>
+                <constraint firstItem="vmn-UH-GiZ" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="KAJ-Rx-eey"/>
+                <constraint firstItem="NvJ-uu-Zak" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="27" id="LSq-2X-xEY"/>
+                <constraint firstItem="48S-T4-6hZ" firstAttribute="top" secondItem="vmn-UH-GiZ" secondAttribute="bottom" constant="8" symbolic="YES" id="P0R-au-SBU"/>
+                <constraint firstItem="vmn-UH-GiZ" firstAttribute="top" secondItem="AWu-YP-mhD" secondAttribute="bottom" constant="8" symbolic="YES" id="T9L-bL-RCm"/>
+                <constraint firstItem="vmn-UH-GiZ" firstAttribute="trailing" secondItem="AWu-YP-mhD" secondAttribute="trailing" id="Uvi-rO-HRz"/>
+                <constraint firstItem="NvJ-uu-Zak" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="10" id="Ynq-Mw-x8x"/>
+                <constraint firstAttribute="trailing" secondItem="vmn-UH-GiZ" secondAttribute="trailing" constant="20" symbolic="YES" id="a6z-ap-BWo"/>
+                <constraint firstAttribute="trailing" secondItem="NvJ-uu-Zak" secondAttribute="trailing" constant="27" id="dQs-B7-aOC"/>
+                <constraint firstItem="vmn-UH-GiZ" firstAttribute="centerX" secondItem="48S-T4-6hZ" secondAttribute="centerX" id="eU6-Ol-SMf"/>
+                <constraint firstItem="AWu-YP-mhD" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="24" id="s4E-ne-hNH"/>
+                <constraint firstItem="AWu-YP-mhD" firstAttribute="top" secondItem="NvJ-uu-Zak" secondAttribute="bottom" constant="4" id="wKy-cE-af7"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="154"/>
+        </customView>
+    </objects>
+</document>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="UnitSettingViewController">
+            <connections>
+                <outlet property="backBtn" destination="DES-gC-TVC" id="sJn-cU-adn"/>
+                <outlet property="titleLabel" destination="bLc-zB-2a8" id="N3S-HS-wEZ"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="920" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="251" alphaValue="0.10000000000000001" translatesAutoresizingMaskIntoConstraints="NO" id="JN4-2x-eM3">
+                    <rect key="frame" x="690" y="370" width="230" height="230"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="230" id="hoa-ib-M9z"/>
+                        <constraint firstAttribute="width" constant="230" id="y5E-LK-1zZ"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSActionTemplate" id="lzf-tr-G6W"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bLc-zB-2a8">
+                    <rect key="frame" x="70" y="523" width="205" height="33"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Unit-1 Setting" id="v3X-5N-Ky6">
+                        <font key="font" metaFont="systemThin" size="28"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <box fixedFrame="YES" title="Devices List" translatesAutoresizingMaskIntoConstraints="NO" id="lyB-mZ-8Oy">
+                    <rect key="frame" x="24" y="185" width="520" height="330"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <view key="contentView" id="fDK-b7-hA9">
+                        <rect key="frame" x="3" y="3" width="514" height="312"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    </view>
+                </box>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DES-gC-TVC">
+                    <rect key="frame" x="25" y="524" width="41" height="31"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="26" id="04X-nS-7x3"/>
+                        <constraint firstAttribute="width" constant="37" id="Wlz-JD-SNk"/>
+                    </constraints>
+                    <buttonCell key="cell" type="bevel" bezelStyle="regularSquare" image="NSGoLeftTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="axX-4K-le1">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="backBtnAction:" target="-2" id="UV8-TI-cnT"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="JN4-2x-eM3" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="5Md-CJ-vD5"/>
+                <constraint firstItem="DES-gC-TVC" firstAttribute="bottom" secondItem="bLc-zB-2a8" secondAttribute="bottom" constant="-4" id="9cG-pk-qRD"/>
+                <constraint firstItem="DES-gC-TVC" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="27" id="GYB-Fd-4HJ"/>
+                <constraint firstAttribute="trailing" secondItem="JN4-2x-eM3" secondAttribute="trailing" id="MQk-42-FYt"/>
+                <constraint firstItem="DES-gC-TVC" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="47" id="aWr-AN-maf"/>
+                <constraint firstItem="DES-gC-TVC" firstAttribute="top" secondItem="bLc-zB-2a8" secondAttribute="top" constant="3" id="oMO-71-IcB"/>
+                <constraint firstItem="bLc-zB-2a8" firstAttribute="leading" secondItem="DES-gC-TVC" secondAttribute="trailing" constant="8" symbolic="YES" id="uty-D4-q0E"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="154"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="NSGoLeftTemplate" width="9" height="12"/>
+    </resources>
+</document>
