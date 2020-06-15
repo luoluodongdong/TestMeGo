@@ -68,10 +68,11 @@ typedef NS_ENUM(NSInteger, ORSSerialRequestType) {
     }
     return [self autoOpenSerial];
 }
--(void)closeSerial{
+-(void)closeDevice{
     if (self.serialPort.isOpen) {
         [self.serialPort close];
     }
+    NSLog(@"serial close device");
 }
 -(IBAction)openBtnAction:(id)sender{
     if (self.serialPort.isOpen) {

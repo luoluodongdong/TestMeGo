@@ -13,10 +13,12 @@
 #import "HSTestSequencerProtocol.h"
 #import "HSTestDefines.h"
 //#import "DBUnit.h"
+#import "CoreDataInserterDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HSTestSequencer : NSObject
+@property (weak) id<CoreDataInserterDelegate> dbInserterDelegate;
 @property (weak) id<HSTestSequencerDelegate> delegate;
 @property (assign) int index;
 @property (retain, nonatomic) HSUnit *unit;

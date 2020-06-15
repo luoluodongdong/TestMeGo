@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "HSLogger.h"
+#import "AboutWindowController.h"
 
 @interface AppDelegate ()
 
@@ -20,8 +21,9 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
-    [HSLogger initWithFile:YES zmq:@"127.0.0.1:10052" level:LOG_LEVEL_DEBUG];
-    HSLogInfo(@"launch...");
+    
+    //[HSLogger initWithFile:YES zmq:nil level:LOG_LEVEL_INFO];
+    NSLog(@"launch...");
     [infoLabel setHidden:YES];
     // 设置标题隐藏
     self.window.titleVisibility = NSWindowTitleHidden;
@@ -50,20 +52,28 @@
     self.containerVC = [[ContainerViewController alloc] initWithNibName:@"ContainerViewController" bundle:nil];
     self.containerVC.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     self.containerVC.loginFlag = loginFlag;
-    HSLogInfo(@"login flag:%hhd",loginFlag);
+    NSLog(@"login flag:%hhd",loginFlag);
 
     [self.window.contentView addSubview:self.containerVC.view];
-    HSLogInfo(@"launch done");
+    NSLog(@"launch done");
 }
 
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
 }
+
+-(IBAction)aboutMenuBtnAction:(id)sender{
+    NSLog(@"click about menu...");
+    AboutWindowController *aboutWindow = [[AboutWindowController alloc] initWithWindowNibName:@"AboutWindowController"];
+    [[NSApplication sharedApplication] runModalForWindow:aboutWindow.window];
+}
+
 - (BOOL)windowShouldClose:(NSWindow *)sender{
-    HSLogWarn(@"window should close...");
-    [NSApp terminate:self];
-    return YES;
+    NSLog(@"window should close...");
+    //[NSApp terminate:self];
+    [self.containerVC switchToExitView];
+    return NO;
 }
 
 @end

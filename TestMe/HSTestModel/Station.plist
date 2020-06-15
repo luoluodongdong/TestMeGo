@@ -10,7 +10,7 @@
 			<key>Type</key>
 			<string>SERIAL</string>
 			<key>Enable</key>
-			<true/>
+			<false/>
 			<key>AutoOpen</key>
 			<true/>
 			<key>Name</key>
@@ -150,12 +150,21 @@
 	<key>Config</key>
 	<dict>
 		<key>SoftwareName</key>
-		<string>SMT Test Software</string>
+		<string>SMT Test Software Demo</string>
 		<key>SoftwareVersion</key>
-		<string>1.0.0</string>
+		<string>1.0.1</string>
 		<key>TestplanFile</key>
 		<string>HS_Dummy_test_plan.csv</string>
 		<key>LoginFlag</key>
+		<false/>
+		<key>LoopCount</key>
+		<dict>
+			<key>Enable</key>
+			<false/>
+			<key>Value</key>
+			<integer>1</integer>
+		</dict>
+		<key>PDCA</key>
 		<false/>
 	</dict>
 	<key>Group-1</key>
@@ -173,11 +182,11 @@
 					<key>Enable</key>
 					<true/>
 					<key>AutoOpen</key>
-					<false/>
+					<true/>
 					<key>Name</key>
 					<string>Arduino</string>
 					<key>PortName</key>
-					<string>123</string>
+					<string>wchusbserial14210</string>
 					<key>Baudrate</key>
 					<integer>9600</integer>
 					<key>RTS</key>
@@ -322,11 +331,309 @@
 					<key>Enable</key>
 					<true/>
 					<key>AutoOpen</key>
-					<false/>
+					<true/>
 					<key>Name</key>
 					<string>Arduino</string>
 					<key>PortName</key>
+					<string>wchusbserial14220</string>
+					<key>Baudrate</key>
+					<integer>9600</integer>
+					<key>RTS</key>
+					<false/>
+					<key>DTR</key>
+					<false/>
+					<key>DTRDSRFlowControl</key>
+					<false/>
+					<key>RTSCTSFlowControl</key>
+					<false/>
+					<key>DCDOutputFlowControl</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Description</key>
+					<string>Arduino Board-1</string>
+					<key>Type</key>
+					<string>NIVISA</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<false/>
+					<key>Name</key>
+					<string>Arduino2</string>
+					<key>Address</key>
+					<string>ASRL10::INSTR</string>
+					<key>Baudrate</key>
+					<integer>9600</integer>
+					<key>Timeout</key>
+					<integer>2000</integer>
+				</dict>
+				<dict>
+					<key>Description</key>
+					<string>Socket Board-2</string>
+					<key>Type</key>
+					<string>SOCKET</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<false/>
+					<key>Name</key>
+					<string>SocketBoard3</string>
+					<key>Mode</key>
+					<string>client</string>
+					<key>IP</key>
+					<string>127.0.0.1</string>
+					<key>Port</key>
+					<integer>5555</integer>
+					<key>Timeout</key>
+					<integer>5000</integer>
+				</dict>
+				<dict>
+					<key>Description</key>
+					<string>Arduino Board-3</string>
+					<key>Type</key>
+					<string>SERIAL</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<false/>
+					<key>Name</key>
+					<string>Arduino100</string>
+					<key>PortName</key>
 					<string>123</string>
+					<key>Baudrate</key>
+					<integer>9600</integer>
+					<key>RTS</key>
+					<false/>
+					<key>DTR</key>
+					<false/>
+					<key>DTRDSRFlowControl</key>
+					<false/>
+					<key>RTSCTSFlowControl</key>
+					<false/>
+					<key>DCDOutputFlowControl</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Description</key>
+					<string>Arduino Board-4</string>
+					<key>Type</key>
+					<string>SERIAL</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<false/>
+					<key>Name</key>
+					<string>Arduino200</string>
+					<key>PortName</key>
+					<string>123</string>
+					<key>Baudrate</key>
+					<integer>9600</integer>
+					<key>RTS</key>
+					<false/>
+					<key>DTR</key>
+					<false/>
+					<key>DTRDSRFlowControl</key>
+					<false/>
+					<key>RTSCTSFlowControl</key>
+					<false/>
+					<key>DCDOutputFlowControl</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Description</key>
+					<string>Arduino Board-5</string>
+					<key>Type</key>
+					<string>SERIAL</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<false/>
+					<key>Name</key>
+					<string>Arduino4</string>
+					<key>PortName</key>
+					<string>123</string>
+					<key>Baudrate</key>
+					<integer>9600</integer>
+					<key>RTS</key>
+					<false/>
+					<key>DTR</key>
+					<false/>
+					<key>DTRDSRFlowControl</key>
+					<false/>
+					<key>RTSCTSFlowControl</key>
+					<false/>
+					<key>DCDOutputFlowControl</key>
+					<false/>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>identifier</key>
+			<string>Unit</string>
+			<key>Devices</key>
+			<array>
+				<dict>
+					<key>Description</key>
+					<string>Arduino Board-0</string>
+					<key>Type</key>
+					<string>SERIAL</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<true/>
+					<key>Name</key>
+					<string>Arduino</string>
+					<key>PortName</key>
+					<string>wchusbserial14230</string>
+					<key>Baudrate</key>
+					<integer>9600</integer>
+					<key>RTS</key>
+					<false/>
+					<key>DTR</key>
+					<false/>
+					<key>DTRDSRFlowControl</key>
+					<false/>
+					<key>RTSCTSFlowControl</key>
+					<false/>
+					<key>DCDOutputFlowControl</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Description</key>
+					<string>Arduino Board-1</string>
+					<key>Type</key>
+					<string>NIVISA</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<false/>
+					<key>Name</key>
+					<string>Arduino2</string>
+					<key>Address</key>
+					<string>ASRL10::INSTR</string>
+					<key>Baudrate</key>
+					<integer>9600</integer>
+					<key>Timeout</key>
+					<integer>2000</integer>
+				</dict>
+				<dict>
+					<key>Description</key>
+					<string>Socket Board-2</string>
+					<key>Type</key>
+					<string>SOCKET</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<false/>
+					<key>Name</key>
+					<string>SocketBoard3</string>
+					<key>Mode</key>
+					<string>client</string>
+					<key>IP</key>
+					<string>127.0.0.1</string>
+					<key>Port</key>
+					<integer>5555</integer>
+					<key>Timeout</key>
+					<integer>5000</integer>
+				</dict>
+				<dict>
+					<key>Description</key>
+					<string>Arduino Board-3</string>
+					<key>Type</key>
+					<string>SERIAL</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<false/>
+					<key>Name</key>
+					<string>Arduino100</string>
+					<key>PortName</key>
+					<string>123</string>
+					<key>Baudrate</key>
+					<integer>9600</integer>
+					<key>RTS</key>
+					<false/>
+					<key>DTR</key>
+					<false/>
+					<key>DTRDSRFlowControl</key>
+					<false/>
+					<key>RTSCTSFlowControl</key>
+					<false/>
+					<key>DCDOutputFlowControl</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Description</key>
+					<string>Arduino Board-4</string>
+					<key>Type</key>
+					<string>SERIAL</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<false/>
+					<key>Name</key>
+					<string>Arduino200</string>
+					<key>PortName</key>
+					<string>123</string>
+					<key>Baudrate</key>
+					<integer>9600</integer>
+					<key>RTS</key>
+					<false/>
+					<key>DTR</key>
+					<false/>
+					<key>DTRDSRFlowControl</key>
+					<false/>
+					<key>RTSCTSFlowControl</key>
+					<false/>
+					<key>DCDOutputFlowControl</key>
+					<false/>
+				</dict>
+				<dict>
+					<key>Description</key>
+					<string>Arduino Board-5</string>
+					<key>Type</key>
+					<string>SERIAL</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<false/>
+					<key>Name</key>
+					<string>Arduino4</string>
+					<key>PortName</key>
+					<string>123</string>
+					<key>Baudrate</key>
+					<integer>9600</integer>
+					<key>RTS</key>
+					<false/>
+					<key>DTR</key>
+					<false/>
+					<key>DTRDSRFlowControl</key>
+					<false/>
+					<key>RTSCTSFlowControl</key>
+					<false/>
+					<key>DCDOutputFlowControl</key>
+					<false/>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>identifier</key>
+			<string>Unit</string>
+			<key>Devices</key>
+			<array>
+				<dict>
+					<key>Description</key>
+					<string>Arduino Board-0</string>
+					<key>Type</key>
+					<string>SERIAL</string>
+					<key>Enable</key>
+					<true/>
+					<key>AutoOpen</key>
+					<true/>
+					<key>Name</key>
+					<string>Arduino</string>
+					<key>PortName</key>
+					<string>wchusbserial14240</string>
 					<key>Baudrate</key>
 					<integer>9600</integer>
 					<key>RTS</key>

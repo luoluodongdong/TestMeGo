@@ -9,6 +9,7 @@
 #import "HSEvent.h"
 
 NSString * const HSEventHSUnitKey = @"com.HSEvent.Unit.Key";
+NSString * const HSEventCSVdataKey = @"com.HSEvent.CSVdata.Key";
 
 NSString * const HSEventTestNumberKey = @"com.HSEvent.TestNumber.Key";
 NSString * const HSEventTestNameKey = @"com.HSEvent.TestName.Key";

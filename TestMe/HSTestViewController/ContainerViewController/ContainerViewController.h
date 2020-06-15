@@ -22,6 +22,8 @@
 #import "StationUITaskProtocol.h"
 #import "ScanSN.h"
 #import "DBUnit.h"
+#import "ExitViewController.h"
+#import "SecurityManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -33,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)switchToUnitDetailView:(int )index;
 -(void)switchToUnitSettingView:(HSUnit *)unit;
 -(void)switchToStationSettingView;
+-(void)switchToExitView;
 //config:@{@"title":@"title",@"message":@"message"}
 -(void)showMessageWithOK:(NSDictionary *)config;
 //config:@{@"type":@"info",@"title":@"title",@"message":@"message"}

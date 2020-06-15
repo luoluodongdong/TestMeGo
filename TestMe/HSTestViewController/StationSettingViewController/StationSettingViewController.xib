@@ -9,6 +9,9 @@
         <customObject id="-2" userLabel="File's Owner" customClass="StationSettingViewController">
             <connections>
                 <outlet property="backBtn" destination="kgI-QX-xbf" id="tVv-d1-FCX"/>
+                <outlet property="loopCountBtn" destination="MUj-ae-yAB" id="GfV-ap-rAM"/>
+                <outlet property="loopValueField" destination="NVg-oq-9Je" id="XWq-3b-0qM"/>
+                <outlet property="pdcaEnableBtn" destination="BMr-f7-2vN" id="BmY-HF-gH5"/>
                 <outlet property="titleLabel" destination="FK6-co-zcQ" id="2eK-ue-Gfx"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
@@ -55,6 +58,37 @@
                     </buttonCell>
                     <connections>
                         <action selector="backBtnAction:" target="-2" id="gDw-W8-Txc"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MUj-ae-yAB">
+                    <rect key="frame" x="25" y="157" width="96" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Loop Count:" bezelStyle="regularSquare" imagePosition="left" inset="2" id="Eyw-6n-fdY">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="loopCountBtnAction:" target="-2" id="cns-fI-DsH"/>
+                    </connections>
+                </button>
+                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NVg-oq-9Je">
+                    <rect key="frame" x="123" y="155" width="96" height="21"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="1" drawsBackground="YES" id="9ag-C2-Hd6">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BMr-f7-2vN">
+                    <rect key="frame" x="254" y="156" width="108" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="PDCA" bezelStyle="regularSquare" imagePosition="left" inset="2" id="pdB-we-WRW">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="pdcaEnableBtn:" target="-2" id="JAv-77-hqG"/>
                     </connections>
                 </button>
             </subviews>

@@ -15,6 +15,7 @@
 {
     IBOutlet NSTextField *infoLabel;
 }
+-(IBAction)aboutMenuBtnAction:(id)sender;
 
 @end
 

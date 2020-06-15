@@ -42,7 +42,7 @@
 -(void)initView;
 -(BOOL)autoStartSocket;
 -(BOOL)startSocket;
--(void)stopSocket;
+-(void)closeDevice;
 -(BOOL)sendCommand:(NSString *)msg;
 
 /*!

@@ -14,6 +14,7 @@
                 <outlet property="gridView" destination="Lk8-bU-Bbo" id="A52-WH-irh"/>
                 <outlet property="inputCountLabel" destination="lEo-po-RsZ" id="y5P-3I-cVR"/>
                 <outlet property="inputSnTF" destination="fa3-Za-dD2" id="Vyi-tF-CsK"/>
+                <outlet property="messageLabel" destination="t0s-94-ChR" id="9mO-q7-1c9"/>
                 <outlet property="operateBox" destination="JyT-nn-ZuA" id="mWG-c6-27V"/>
                 <outlet property="passCountLabel" destination="yB6-OO-VMi" id="EI7-Q6-hn0"/>
                 <outlet property="startBtn" destination="bP3-Sz-vsY" id="uXo-DP-XP3"/>
@@ -66,11 +67,10 @@
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="GYG-dF-tt5">
-                    <rect key="frame" x="592" y="542" width="308" height="58"/>
+                    <rect key="frame" x="592" y="551" width="308" height="49"/>
                     <textFieldCell key="cell" selectable="YES" title="Alert Message" drawsBackground="YES" id="H8I-bk-194">
                         <font key="font" metaFont="system" size="16"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                        <color key="backgroundColor" name="systemOrangeColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
                 <box title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="JyT-nn-ZuA">
@@ -218,12 +218,21 @@
                     </view>
                     <font key="titleFont" metaFont="systemThin" size="11"/>
                 </box>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t0s-94-ChR">
+                    <rect key="frame" x="592" y="533" width="310" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="loop: 2/0" id="IbZ-8a-ek6">
+                        <font key="font" metaFont="systemUltraLight" size="13"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <constraints>
                 <constraint firstItem="YiE-ln-Aao" firstAttribute="top" secondItem="JyT-nn-ZuA" secondAttribute="bottom" constant="7" id="8DH-OV-w58"/>
                 <constraint firstItem="Fzm-0e-mlr" firstAttribute="trailing" secondItem="GYG-dF-tt5" secondAttribute="trailing" id="8FB-0x-6SI"/>
                 <constraint firstItem="Fzm-0e-mlr" firstAttribute="leading" secondItem="JyT-nn-ZuA" secondAttribute="trailing" constant="8" symbolic="YES" id="9jJ-yD-UhH"/>
                 <constraint firstItem="YiE-ln-Aao" firstAttribute="top" secondItem="Nx4-tx-z9i" secondAttribute="bottom" constant="45" id="Bu2-vp-yom"/>
+                <constraint firstItem="t0s-94-ChR" firstAttribute="leading" secondItem="Nx4-tx-z9i" secondAttribute="trailing" constant="10" id="By9-37-s7X"/>
                 <constraint firstAttribute="trailing" secondItem="Fzm-0e-mlr" secondAttribute="trailing" constant="20" id="C03-Jz-rZ1"/>
                 <constraint firstItem="GYG-dF-tt5" firstAttribute="leading" secondItem="Nx4-tx-z9i" secondAttribute="trailing" constant="8" symbolic="YES" id="EgJ-oD-OLu"/>
                 <constraint firstItem="Fzm-0e-mlr" firstAttribute="leading" secondItem="JyT-nn-ZuA" secondAttribute="trailing" constant="8" id="GyG-4H-qXa"/>
@@ -231,14 +240,16 @@
                 <constraint firstItem="Fzm-0e-mlr" firstAttribute="centerY" secondItem="JyT-nn-ZuA" secondAttribute="centerY" id="LC3-P2-7Q8"/>
                 <constraint firstItem="JyT-nn-ZuA" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" symbolic="YES" id="LIj-ok-PNe"/>
                 <constraint firstItem="Fzm-0e-mlr" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="66" id="PaX-Nl-2k6"/>
+                <constraint firstItem="t0s-94-ChR" firstAttribute="bottom" secondItem="Nx4-tx-z9i" secondAttribute="bottom" id="UKw-qY-iqC"/>
                 <constraint firstItem="YiE-ln-Aao" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="112" id="USU-hb-eI2"/>
                 <constraint firstItem="Fzm-0e-mlr" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="468" id="Utc-6L-1vu"/>
                 <constraint firstItem="Nx4-tx-z9i" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="17" id="X48-HG-rNa"/>
                 <constraint firstAttribute="bottom" secondItem="YiE-ln-Aao" secondAttribute="bottom" id="aQK-wi-fFU"/>
                 <constraint firstAttribute="trailing" secondItem="YiE-ln-Aao" secondAttribute="trailing" id="dKd-l5-wH5"/>
                 <constraint firstItem="GYG-dF-tt5" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="dNW-pZ-2Yk"/>
-                <constraint firstItem="Fzm-0e-mlr" firstAttribute="top" secondItem="GYG-dF-tt5" secondAttribute="bottom" constant="8" symbolic="YES" id="gj7-rj-9So"/>
+                <constraint firstItem="Fzm-0e-mlr" firstAttribute="top" secondItem="GYG-dF-tt5" secondAttribute="bottom" constant="17" id="gj7-rj-9So"/>
                 <constraint firstItem="YiE-ln-Aao" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="nxi-gw-cf1"/>
+                <constraint firstItem="t0s-94-ChR" firstAttribute="trailing" secondItem="Fzm-0e-mlr" secondAttribute="trailing" id="qk4-KE-zPc"/>
                 <constraint firstAttribute="trailing" secondItem="GYG-dF-tt5" secondAttribute="trailing" constant="20" id="rfo-NE-uzr"/>
                 <constraint firstItem="YiE-ln-Aao" firstAttribute="top" secondItem="Fzm-0e-mlr" secondAttribute="bottom" constant="8" symbolic="YES" id="tvj-x5-byc"/>
                 <constraint firstItem="JyT-nn-ZuA" firstAttribute="leading" secondItem="Nx4-tx-z9i" secondAttribute="leading" id="ub3-6F-LX0"/>

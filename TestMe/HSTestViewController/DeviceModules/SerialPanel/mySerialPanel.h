@@ -46,7 +46,7 @@
 -(void)initView;
 -(BOOL)autoOpenSerial;
 -(BOOL)openSerial;
--(void)closeSerial;
+-(void)closeDevice;
 -(BOOL)sendCommand:(NSString *)cmd;
 -(BOOL)sendCmd:(NSString *)cmd received:(NSString **)data withTimeOut:(double )to;
 

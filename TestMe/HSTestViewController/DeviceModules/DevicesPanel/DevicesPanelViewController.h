@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 //@property NSArray *devicesList;
 @property NSMutableDictionary *loadDevicesDict;
 
+-(void)closeAllDevices;
+
 @end
 
 NS_ASSUME_NONNULL_END

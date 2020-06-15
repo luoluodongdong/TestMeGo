@@ -103,12 +103,12 @@
     [self.testCoreManager removeObserver:self forKeyPath:@"numberOfUnitsTesting"];
 }
 -(void)viewWillAppear{
-    [self printLog:@"view will appear "];
+    //[self printLog:@"view will appear "];
     
 }
 
 -(void)viewWillDisappear{
-    [self printLog:@"view will disappear"];
+    //[self printLog:@"view will disappear"];
     
 }
 -(IBAction)settingBtnAction:(id)sender{
@@ -156,13 +156,13 @@
         [testStatusLabel setStringValue:@""];
         [msgLabel setStringValue:@""];
         //[selectBtn setEnabled:NO];
-        self.timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timeTick) userInfo:nil repeats:YES];
-        [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
-        [self timeTick];
+//        self.timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(timeTick) userInfo:nil repeats:YES];
+//        [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+//        [self timeTick];
     }
     else if(state == HSUnitFinished){
-        [self.timer invalidate];
-        [self setTimer:nil];
+//        [self.timer invalidate];
+//        [self setTimer:nil];
         if (self.unit.testStatus == HSTestStatusPass) {
             box.currentFillColor = [NSColor greenColor];
             [box setFillColor:[NSColor greenColor]];

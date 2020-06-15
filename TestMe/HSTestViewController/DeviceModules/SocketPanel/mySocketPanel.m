@@ -94,7 +94,7 @@
             //[self showPanel:@"Save params OK!"];
         }
     }else{
-        [self stopSocket];
+        [self closeDevice];
         [startBtn setTitle:@"Start"];
         [modeBtn setEnabled:YES];
         [ipTF setEnabled:YES];
@@ -135,7 +135,7 @@
     
     return YES;
 }
--(void)stopSocket{
+-(void)closeDevice{
     if ([self.socket_mode isEqualToString:@"client"]) {
         [_socket setDelegate:nil];
         [_socket disconnect];

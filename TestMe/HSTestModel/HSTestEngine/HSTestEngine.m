@@ -79,7 +79,23 @@
             record.failureInfo = error;
         }
         
-    }else{
+    }
+    else if ([function isEqualToString:HSTestFunction_arduino]){
+        //unit async NonUI task
+        NSDictionary *response = [self.setting executeNonUITaskRequest:request];
+        record.measurement = [response objectForKey:@"data"];
+        if ([[response objectForKey:@"status"] boolValue] == YES) {
+            record.result = [self getTestResult:record.measurement limit:record.limit];
+            if (record.result != HSTestStatusPass) {
+                record.failureInfo = HSError(@"com.testEngine.syncRequest", 0x64, @"fail out of limit");
+            }
+        }else{
+            NSError *error = HSError(@"com.testEngine.dmm", 0x64, @"execute nonUI task request fail");
+            record.result = HSTestStatusFail;
+            record.failureInfo = error;
+        }
+    }
+    else{
         record.result = HSTestStatusError;
         NSError *error = HSError(@"com.testEngine.functionError", 0x64, [NSString stringWithFormat:@"unknown function<%@>",function]);
         record.failureInfo = error;
@@ -156,7 +172,7 @@
         }
     }
     if (limit_low_is_empty == NO && limit_up_is_empty == NO) {
-        if (limit_low_is_string || limit_up_is_string) {
+        if ([limit.low isEqualToString:limit.up] || limit_low_is_string || limit_up_is_string) {
             if([value isEqualToString:limit.low] == YES){
                 return HSTestStatusPass;
             }else{
@@ -234,6 +250,8 @@
     data = [file readDataToEndOfFile];
     NSString *result_str;
     NSString *error_str=[[NSString alloc] initWithData:[file2 readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+    [file closeFile];
+    [file2 closeFile];
     if(![error_str isEqualToString:@""]){
         NSLog(@"error:%@",error_str);
         return @"[ERROR]";

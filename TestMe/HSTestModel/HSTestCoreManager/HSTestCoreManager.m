@@ -11,6 +11,7 @@
 #import "HSTestplan.h"
 #import "HSTestFunctionDefines.h"
 #import "HSLogger.h"
+#import "HSTestplanItem.h"
 
 @interface HSTestCoreManager()
 
@@ -19,7 +20,16 @@
 @property unsigned long syncRequestCount;
 @property (retain, nonatomic) NSMutableArray *unitSnArr;
 @property BOOL scanSnIsReady;
+
+
+//loop
+@property BOOL loopEnableFlag;
+@property int loopCountNum;
+@property int finishedLoopCount;
 //@property unsigned long activedUnitCount;
+
+//save csv data
+@property dispatch_queue_t collectResultQueue;
 
 @end
 
@@ -48,6 +58,7 @@ static HSTestCoreManager* _instance = nil;
 -(void)initTestCore{
     NSURL *url = [[NSBundle mainBundle] URLForResource:@"HSTestDB" withExtension:@"momd"];
     CoreDataInjection *cdij = [[CoreDataInjection alloc] initWithURL:url];
+    self.collectResultQueue = dispatch_queue_create("com.testcoremanager.collectresultqueue", DISPATCH_QUEUE_SERIAL);
     
     self.inserter = [[CoreDataInserter alloc] init];
     self.operateMode = @"Production";
@@ -64,6 +75,11 @@ static HSTestCoreManager* _instance = nil;
     //self.unitsSelectedState = [NSMutableArray array];
     self.numberOfUnitsTesting = 0;
     self.selectedUnitsCount = 0;
+    self.showMessageInfo = @"";
+    //loop
+    self.loopEnableFlag = NO;
+    self.loopCountNum = 1;
+    self.finishedLoopCount = 0;
     
     NSString *rawfilePath=[[NSBundle mainBundle] resourcePath];
     NSString *filePath=[rawfilePath stringByAppendingPathComponent:@"Station.plist"];
@@ -73,6 +89,8 @@ static HSTestCoreManager* _instance = nil;
     
     NSDictionary *stationConfig =[rootDict objectForKey:@"Config"];
     self.testplanData = [HSTestplan loadTestplan:[stationConfig objectForKey:@"TestplanFile"]];
+    self.softwareName = [stationConfig objectForKey:@"SoftwareName"];
+    self.softwareVersion = [stationConfig objectForKey:@"SoftwareVersion"];
     
     for (int i=0; i<[groupUnits count]; i++) {
         self.numberOfUnitsTesting += 1;
@@ -97,6 +115,7 @@ static HSTestCoreManager* _instance = nil;
         HSTestSequencer *sequencer = [[HSTestSequencer alloc] init];
         sequencer.index = i;
         sequencer.engine = engine;
+        sequencer.dbInserterDelegate = self;
         sequencer.delegate = self;
         sequencer.unit = unit;
         sequencer.testplanData = self.testplanData;
@@ -106,7 +125,17 @@ static HSTestCoreManager* _instance = nil;
     }
 
 }
-
+-(void)updateStationConfigs{
+    HSTestRequest *request = [HSTestRequest initWithLimit:nil
+                                                    index:0
+                                               identifier:@"testcoremanager"
+                                                     name:@"testcoremanager"
+                                                   action:@{@"function":HSTestFunction_getStationConfig}
+                                                   params:nil];
+    NSDictionary *responseDict = [self.stationSetting executeNonUITaskRequest:request];
+    self.stationConfigDict = [responseDict objectForKey:@"data"];
+    HSLogInfo(@"station config:%@",self.stationConfigDict);
+}
 -(BOOL)start{
     if (self.state == HSTestCoreTesting || self.selectedUnitsCount == 0) {
         return NO;
@@ -114,6 +143,7 @@ static HSTestCoreManager* _instance = nil;
     if (self.scanSnIsReady == NO) {
         return NO;
     }
+    [self updateShowMessageInfo];
     [self.inserter deleteOldData];
     self.numberOfUnitsTesting = self.selectedUnitsCount;
     self.state = HSTestCoreTesting;
@@ -125,7 +155,7 @@ static HSTestCoreManager* _instance = nil;
             unit.identifier = [NSString stringWithFormat:@"Group-1 : Unit-%d",unitIndex+1];
             unit.index = unitIndex;
             unit.uuid = [NSUUID UUID];
-            [self.inserter creatDBUnitWithHSUnit:unit];
+            //[self.inserter creatDBUnitWithHSUnit:unit];
             unit.start = [NSDate date];
             unit.serialnumber = [self.unitSnArr objectAtIndex:unitIndex];
             unit.errorMessage = @"";
@@ -149,6 +179,8 @@ static HSTestCoreManager* _instance = nil;
     HSLogInfo(@" <core> %@",[snArr description]);
     self.unitSnArr = [NSMutableArray arrayWithArray:snArr];
     self.scanSnIsReady = YES;
+    self.finishedLoopCount = 0;
+    self.showMessageInfo = @"";
     return [self start];
 }
 -(void)abort{
@@ -209,7 +241,16 @@ static HSTestCoreManager* _instance = nil;
     }
     HSLogInfo(@" <core> selectedUnitCount:%lu",self.selectedUnitsCount);
 }
-
+-(void)updateShowMessageInfo{
+    if (self.loopEnableFlag) {
+        NSDictionary *loopCountItem = [self.stationConfigDict objectForKey:@"LoopCount"];
+        self.loopEnableFlag = [[loopCountItem objectForKey:@"Enable"] boolValue];
+        self.loopCountNum = [[loopCountItem objectForKey:@"Value"] intValue];
+        self.showMessageInfo = [[NSString alloc] initWithFormat:@"loop: %d/%d",self.loopCountNum,self.finishedLoopCount];
+    }else{
+        self.showMessageInfo = @"";
+    }
+}
 #pragma mark -- Delegate - UnitCallStationTaskDelegate
 //deleage station level tast request
 -(NSDictionary *)unitCallStationTaskRequest:(HSTestRequest *)request{
@@ -285,11 +326,211 @@ static HSTestCoreManager* _instance = nil;
         
         if (self.numberOfUnitsTesting == 0) {
             HSLogInfo(@" <core> all sequencer finished");
+            if (self.loopEnableFlag == YES) {
+                self.finishedLoopCount += 1;
+                self.showMessageInfo = [[NSString alloc] initWithFormat:@"loop: %d/%d",self.loopCountNum,self.finishedLoopCount];
+                if (self.finishedLoopCount < self.loopCountNum) {
+                    self.scanSnIsReady = YES;
+                    [NSThread detachNewThreadWithBlock:^{
+                        [NSThread sleepForTimeInterval:3.0];
+                        [self start];
+                    }];
+                }
+            }else{
+                self.scanSnIsReady = NO;
+            }
             self.state = HSTestCoreFinished;
-            self.scanSnIsReady = NO;
+            
         }
     }
     [self.sequencerEventThreadLock unlock];
 }
 
+#pragma mark -- Delegate - CoreDataInserterDelegate
+-(void)unitStart:(HSEvent *)event{
+    
+}
+-(void)testItemStart:(HSEvent *)event{
+    [self.inserter testItemStart:event];
+}
+-(void)testItemFinished:(HSEvent *)event{
+    [self.inserter testItemFinished:event];
+}
+-(void)unitAbort:(HSEvent *)event{
+    [self.inserter unitAbort:event];
+}
+-(void)unitFinished:(HSEvent *)event{
+    dispatch_async(self.collectResultQueue, ^{
+        [self collectResultAction:event];
+        [self.inserter unitFinished:event];
+    });
+}
+
+-(void)collectResultAction:(HSEvent *)event{
+    NSArray *csvdata = [event.userInfo objectForKey:HSEventCSVdataKey];
+    //HSLogInfo(@"%@",[csvdata description]);
+    NSString *strMonth = [self getCurrentMonth];
+    NSString *csvPath = [NSString stringWithFormat:@"/vault/HSLog/%@/%@",self.softwareName,strMonth];
+    NSString *strCurrentDate = [self getCurrentDate];
+    NSString *strFileName = [NSString stringWithFormat:@"%@_%@.csv", strCurrentDate,self.operateMode];
+    
+    NSString *strFilePath = [NSString stringWithFormat:@"%@/%@", csvPath, strFileName];
+    
+    if(YES == [self createCSVFileWithPath:csvPath withFilePath:strFilePath])
+    {
+        NSMutableString *csvdataString = [NSMutableString string];
+        for (NSString *item in csvdata) {
+            [csvdataString appendFormat:@"%@,",item];
+        }
+        [csvdataString appendString:@"\r\n"];
+        [self appendDataToFileWithString:csvdataString withFilePath:strFilePath];
+    }
+}
+- (BOOL)appendDataToFileWithString:(NSString *)string withFilePath:(NSString *)strFilePath
+{
+    NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:strFilePath];
+    [myHandle seekToEndOfFile];
+    [myHandle writeData:[string dataUsingEncoding:NSUTF8StringEncoding]];
+    [myHandle closeFile];
+    
+    return YES;
+}
+
+-(BOOL)createCSVFileWithPath:(NSString *)path withFilePath:(NSString *)strLogFilePath
+{
+    BOOL isDir = NO;
+    NSError *errMsg;
+    
+    //1. Get execution tool's folder path
+    NSFileManager *fm = [NSFileManager defaultManager];
+    
+    //2. If bDirExist&isDir are true, the directory exit
+    BOOL bDirExist = [fm fileExistsAtPath:path isDirectory:&isDir];
+    if (!(bDirExist == YES && isDir == YES))
+    {
+        if (NO == [fm createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:&errMsg])
+            return NO;
+    }
+    
+    //4. Check file exist or not
+    //5. If file not exist, creat data to file
+    //    bDirExist = [fm fileExistsAtPath:_logFilePath isDirectory:&isDir];
+    if (NO == [fm fileExistsAtPath:strLogFilePath isDirectory:&isDir])
+    {
+        if (NO == [fm createFileAtPath:strLogFilePath contents:nil attributes:nil])
+        {
+            return NO;
+        }
+        
+        NSString *strSum = [[NSString alloc] init];
+        if (NO == [strSum writeToFile:strLogFilePath atomically:YES encoding:NSUTF8StringEncoding error:&errMsg])
+        {
+            return NO;
+        }
+        NSString *strTitle=[self getCsvTitle];
+        [self appendDataToFileWithString:strTitle withFilePath:strLogFilePath];//第一次创建时，增加每一列的标题
+    }
+    
+    return YES;
+}
+
+-(NSString *)getCsvTitle{
+    
+    NSMutableArray *itemsData=[[NSMutableArray alloc] initWithCapacity:1];
+    
+    NSMutableArray *lowData=[[NSMutableArray alloc] initWithCapacity:1];
+    NSMutableArray *upData=[[NSMutableArray alloc] initWithCapacity:1];
+    NSMutableArray *unitData=[[NSMutableArray alloc] initWithCapacity:1];
+    for (int index=0; index<[self.testplanData count]; index++) {
+        HSTestplanItem *thisItem = [self.testplanData objectAtIndex:index];
+        NSString *testID = thisItem.testid;
+        if ([testID containsString:@" | "]) {
+            testID = [testID componentsSeparatedByString:@" | "][0];
+        }
+        //Test Data:     ||      TestPlan:
+        [itemsData addObject:testID];
+        [lowData addObject:thisItem.low];
+        [upData addObject:thisItem.up];
+        [unitData addObject:thisItem.unit];
+    }
+    NSString *csvTitle = @"SN--->,Result,FailureList,StationID,SlotID,StartTime,EndTime,Version,";
+    for(NSString *item in itemsData){
+        csvTitle = [csvTitle stringByAppendingString:item];
+        csvTitle = [csvTitle stringByAppendingString:@","];
+    }
+    csvTitle = [csvTitle stringByAppendingString:@"\r\n"];
+    csvTitle = [csvTitle stringByAppendingString:@"LowerLimit--->,,,,,,,,"];
+    for(NSString *item in lowData){
+        csvTitle = [csvTitle stringByAppendingString:item];
+        csvTitle = [csvTitle stringByAppendingString:@","];
+    }
+    csvTitle = [csvTitle stringByAppendingString:@"\r\n"];
+    csvTitle = [csvTitle stringByAppendingString:@"UpperLimit--->,,,,,,,,"];
+    for(NSString *item in upData){
+        csvTitle = [csvTitle stringByAppendingString:item];
+        csvTitle = [csvTitle stringByAppendingString:@","];
+    }
+    csvTitle = [csvTitle stringByAppendingString:@"\r\n"];
+    csvTitle = [csvTitle stringByAppendingString:@"MeasurementUnit--->,,,,,,,,"];
+    for(NSString *item in unitData){
+        csvTitle = [csvTitle stringByAppendingString:item];
+        csvTitle = [csvTitle stringByAppendingString:@","];
+    }
+    csvTitle = [csvTitle stringByAppendingString:@"\r\n"];
+    
+    return csvTitle;
+}
+//2019.11.12 18:44:35
+- (NSString *)getCurrentTime
+{
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //    [dateFormatter setDateFormat:@"YYYY_MM_dd_HH:mm:ss"];
+    [dateFormatter setDateFormat:@"YYYY.MM.dd HH:mm:ss"];
+    NSString *currentTime = [dateFormatter stringFromDate:today];
+    return currentTime;
+}
+//2019/11/12 18:44:35
+-(NSString *)getCurrentTimeStr{
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //    [dateFormatter setDateFormat:@"YYYY_MM_dd_HH:mm:ss"];
+    [dateFormatter setDateFormat:@"YYYY/MM/dd HH:mm:ss"];
+    NSString *currentTime = [dateFormatter stringFromDate:today];
+    return currentTime;
+}
+//2019_01
+- (NSString *) getCurrentMonth
+{
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYY_MM"];
+    NSString *currentTime = [dateFormatter stringFromDate:today];
+    return currentTime;
+}
+//2019_01_21
+- (NSString *) getCurrentDate
+{
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYY_MM_dd"];
+    NSString *currentTime = [dateFormatter stringFromDate:today];
+    return currentTime;
+}
+//20190121101245342
+-(NSString *)getCurrentTimeSuffix{
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYYMMddHHmmssSSS"];
+    NSString *currentTime = [dateFormatter stringFromDate:today];
+    return currentTime;
+}
+//2019_01_21_10
+-(NSString *)getCurrentHourSuffix{
+    NSDate *today = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"YYYY_MM_dd_HH"];
+    NSString *currentTime = [dateFormatter stringFromDate:today];
+    return currentTime;
+}
 @end

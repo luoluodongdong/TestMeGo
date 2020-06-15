@@ -34,7 +34,10 @@
     [super viewDidLoad];
     // Do view setup here.
     [fixtureSetBtn setHidden:YES];
+    [alertLabel setStringValue:@""];
     [alertLabel setHidden:YES];
+    //loop message label
+    [messageLabel setStringValue:@""];
     self.hoverLayout.backgroundColor = [[NSColor grayColor] colorWithAlphaComponent:0.42];
     self.selectionLayout.backgroundColor = [NSColor colorWithCalibratedRed:0.542 green:0.699 blue:0.807 alpha:0.420];
     gridView.itemSize = NSMakeSize(300, 350);
@@ -44,13 +47,19 @@
     [gridView reloadData];
     
     self.userDefaults = [NSUserDefaults standardUserDefaults];
-    double inputCount = [self.userDefaults doubleForKey:@"InputCountKey"];
-    if (inputCount == 0) {
-        [self.userDefaults setDouble:99 forKey:@"InputCountKey"];
-        [self.userDefaults setDouble:83 forKey:@"PassCountKey"];
-        [self.userDefaults synchronize];
-    }
-    [self updateYield];
+//    double inputCount = [self.userDefaults doubleForKey:@"InputCountKey"];
+//    if (inputCount == 0) {
+//        [self.userDefaults setDouble:99 forKey:@"InputCountKey"];
+//        [self.userDefaults setDouble:83 forKey:@"PassCountKey"];
+//        [self.userDefaults synchronize];
+//    }
+    [self updateYield:NO];
+    HSLogInfo(@"message info:%@",self.testCoreManager.showMessageInfo);
+    [self showMessageInfo];
+}
+-(void)viewWillAppear{
+    HSLogInfo(@"message info:%@",self.testCoreManager.showMessageInfo);
+    [self showMessageInfo];
 }
 -(void)initView{
     self.testCoreManager= [HSTestCoreManager sharedInstance];
@@ -78,15 +87,28 @@
     if ([keyPath isEqualToString:@"state"]) {
         if (self.testCoreManager.state == HSTestCoreTesting) {
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self showMessageInfo];
                 [self changeEnableState:NO];
             });
         }else{
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self showMessageInfo];
                 [self changeEnableState:YES];
                 [self->inputSnTF becomeFirstResponder];
-                [self updateYield];
+                [self updateYield:YES];
             });
         }
+    }
+}
+-(void)showMessageInfo{
+    [messageLabel setStringValue:self.testCoreManager.showMessageInfo];
+    //alert label NO PDCA
+    BOOL pdcaEnable = [[self.testCoreManager.stationConfigDict objectForKey:@"PDCA"] boolValue];
+    if (pdcaEnable == NO) {
+        [alertLabel setStringValue:@"NO PDCA"];
+        [alertLabel setHidden:NO];
+    }else{
+        [alertLabel setHidden:YES];
     }
 }
 -(void)changeEnableState:(BOOL )state{
@@ -96,26 +118,28 @@
     [self->fixtureSetBtn setEnabled:state];
     [self->clearYieldBtn setEnabled:state];
 }
--(void)updateYield{
+-(void)updateYield:(BOOL)withResult{
     double inputCount = [self.userDefaults doubleForKey:@"InputCountKey"];
     double passCount = [self.userDefaults doubleForKey:@"PassCountKey"];
-    for (HSTestSequencer *sequencer in self.testCoreManager.sequencerSet) {
-        HSUnit *unit = sequencer.unit;
-        if (unit.state == HSUnitFinished) {
-            inputCount += 1;
-            if (unit.testStatus == HSTestStatusPass) {
-                passCount += 1;
+    if (withResult == YES) {
+        for (HSTestSequencer *sequencer in self.testCoreManager.sequencerSet) {
+            HSUnit *unit = sequencer.unit;
+            if (unit.state == HSUnitFinished) {
+                inputCount += 1;
+                if (unit.testStatus == HSTestStatusPass) {
+                    passCount += 1;
+                }
             }
         }
     }
-    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-    formatter.numberStyle = NSNumberFormatterPercentStyle;
-    formatter.minimumIntegerDigits = 1;
-    formatter.maximumIntegerDigits = 3;
-    formatter.minimumFractionDigits = 2;
-    formatter.maximumFractionDigits = 2;
     NSString *yieldStr = @"0.00%";
     if (inputCount != 0) {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        formatter.numberStyle = NSNumberFormatterPercentStyle;
+        formatter.minimumIntegerDigits = 1;
+        formatter.maximumIntegerDigits = 3;
+        formatter.minimumFractionDigits = 2;
+        formatter.maximumFractionDigits = 2;
         yieldStr =[formatter stringFromNumber:[NSNumber numberWithDouble:(passCount / inputCount)]];
     }
     [self printLog:[NSString stringWithFormat:@"input:%.0f pass:%.0f yield:%@",inputCount,passCount,yieldStr]];
@@ -126,9 +150,7 @@
     [self.userDefaults setDouble:passCount forKey:@"PassCountKey"];
     [self.userDefaults synchronize];
 }
--(void)viewWillAppear{
-    
-}
+
 -(void)viewDidAppear{
     [inputSnTF becomeFirstResponder];
 }
@@ -139,7 +161,7 @@
     [self.userDefaults setDouble:0 forKey:@"InputCountKey"];
     [self.userDefaults setDouble:0 forKey:@"PassCountKey"];
     [self.userDefaults synchronize];
-    [self updateYield];
+    [self updateYield:NO];
 }
 -(IBAction)testModeBtnAction:(id)sender{
     if (self.testCoreManager.state == HSTestCoreTesting) {
@@ -158,12 +180,11 @@
         }
         else if([selectedMode isEqualToString:@"Audit"]){
             self.testCoreManager.operateMode = selectedMode;
-            [self.parentViewController.view setWantsLayer:YES];
-            NSColor *color = [ConfigurationEngine auditModeBackgroundColor];
-            [self.parentViewController.view.layer setBackgroundColor:color.CGColor];
-            [fixtureSetBtn setHidden:YES];
+            id cvc = self.parentViewController;
+            [cvc showPasswordView];
         }
         else if([selectedMode isEqualToString:@"Engineer"]){
+            self.testCoreManager.operateMode = selectedMode;
             id cvc = self.parentViewController;
             [cvc showPasswordView];
         }
@@ -172,14 +193,21 @@
 }
 -(void)passwrodVerifyResult:(BOOL )result{
     if (result == YES) {
-        self.testCoreManager.operateMode = @"Engineer";
+        //self.testCoreManager.operateMode = @"Engineer";
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->fixtureSetBtn setHidden:NO];
             [self.parentViewController.view setWantsLayer:YES];
-            NSColor *color = [ConfigurationEngine engineerModeBackgroundColor];
-            [self.parentViewController.view.layer setBackgroundColor:color.CGColor];
+            if ([self.testCoreManager.operateMode isEqualToString:@"Engineer"]) {
+                NSColor *color = [ConfigurationEngine engineerModeBackgroundColor];
+                [self.parentViewController.view.layer setBackgroundColor:color.CGColor];
+            }else if([self.testCoreManager.operateMode isEqualToString:@"Audit"]){
+                NSColor *color = [ConfigurationEngine auditModeBackgroundColor];
+                [self.parentViewController.view.layer setBackgroundColor:color.CGColor];
+            }
+            
         });
     }else{
+        self.testCoreManager.operateMode = @"Production";
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->testModeBtn selectItemWithTitle:self.testCoreManager.operateMode];
         });

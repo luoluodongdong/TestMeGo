@@ -33,6 +33,17 @@
 		9D757AA4246534A00004E63F /* PasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D757AA2246534A00004E63F /* PasswordViewController.xib */; };
 		9D757AA5246534A00004E63F /* PasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D757AA3246534A00004E63F /* PasswordViewController.m */; };
 		9D76ADF2244AF4EC001D38B2 /* HSUnitSetting.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D76ADF1244AF4EC001D38B2 /* HSUnitSetting.m */; };
+		9D7A12D0247B9C5F00066A76 /* AboutWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D7A12C9247B9C5F00066A76 /* AboutWindowController.xib */; };
+		9D7A12D1247B9C5F00066A76 /* AboutWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7A12CA247B9C5F00066A76 /* AboutWindowController.m */; };
+		9D7A12D2247B9C5F00066A76 /* ContentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D7A12CD247B9C5F00066A76 /* ContentViewController.xib */; };
+		9D7A12D3247B9C5F00066A76 /* ContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7A12CE247B9C5F00066A76 /* ContentViewController.m */; };
+		9D7A12D8247BC08100066A76 /* ExitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D7A12D6247BC08100066A76 /* ExitViewController.m */; };
+		9D7A12D9247BC08100066A76 /* ExitViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9D7A12D7247BC08100066A76 /* ExitViewController.xib */; };
+		9D8359A8248E507500A4D7D6 /* SecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8359A7248E507500A4D7D6 /* SecurityManager.m */; };
+		9D8359AF248E51D000A4D7D6 /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8359AC248E51D000A4D7D6 /* Base64.m */; };
+		9D8359B0248E51D000A4D7D6 /* CocoaSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8359AE248E51D000A4D7D6 /* CocoaSecurity.m */; };
+		9D8359B724931C1E00A4D7D6 /* libInstantPudding.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D8359B324931C1E00A4D7D6 /* libInstantPudding.dylib */; };
+		9D8359B824931C1E00A4D7D6 /* HSIPWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9D8359B524931C1E00A4D7D6 /* HSIPWrapper.m */; };
 		9DA173D62448781100C8D5B2 /* bg1.png in Resources */ = {isa = PBXBuildFile; fileRef = 9DA173D52448781100C8D5B2 /* bg1.png */; };
 		9DA173EE2449A4F900C8D5B2 /* HSTestCoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA173ED2449A4F900C8D5B2 /* HSTestCoreManager.m */; };
 		9DA173F22449A6A700C8D5B2 /* HSTestEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DA173F12449A6A700C8D5B2 /* HSTestEngine.m */; };
@@ -152,6 +163,25 @@
 		9D76ADEE244AF325001D38B2 /* UnitCallStationTaskProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnitCallStationTaskProtocol.h; sourceTree = "<group>"; };
 		9D76ADF0244AF4EC001D38B2 /* HSUnitSetting.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSUnitSetting.h; sourceTree = "<group>"; };
 		9D76ADF1244AF4EC001D38B2 /* HSUnitSetting.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HSUnitSetting.m; sourceTree = "<group>"; };
+		9D7A12C9247B9C5F00066A76 /* AboutWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutWindowController.xib; sourceTree = "<group>"; };
+		9D7A12CA247B9C5F00066A76 /* AboutWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutWindowController.m; sourceTree = "<group>"; };
+		9D7A12CC247B9C5F00066A76 /* ContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentViewController.h; sourceTree = "<group>"; };
+		9D7A12CD247B9C5F00066A76 /* ContentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ContentViewController.xib; sourceTree = "<group>"; };
+		9D7A12CE247B9C5F00066A76 /* ContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentViewController.m; sourceTree = "<group>"; };
+		9D7A12CF247B9C5F00066A76 /* AboutWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutWindowController.h; sourceTree = "<group>"; };
+		9D7A12D5247BC08100066A76 /* ExitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExitViewController.h; sourceTree = "<group>"; };
+		9D7A12D6247BC08100066A76 /* ExitViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExitViewController.m; sourceTree = "<group>"; };
+		9D7A12D7247BC08100066A76 /* ExitViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExitViewController.xib; sourceTree = "<group>"; };
+		9D8359A6248E507500A4D7D6 /* SecurityManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecurityManager.h; sourceTree = "<group>"; };
+		9D8359A7248E507500A4D7D6 /* SecurityManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecurityManager.m; sourceTree = "<group>"; };
+		9D8359AB248E51D000A4D7D6 /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		9D8359AC248E51D000A4D7D6 /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
+		9D8359AD248E51D000A4D7D6 /* CocoaSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaSecurity.h; sourceTree = "<group>"; };
+		9D8359AE248E51D000A4D7D6 /* CocoaSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CocoaSecurity.m; sourceTree = "<group>"; };
+		9D8359B324931C1E00A4D7D6 /* libInstantPudding.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libInstantPudding.dylib; sourceTree = "<group>"; };
+		9D8359B424931C1E00A4D7D6 /* InstantPudding_API.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstantPudding_API.h; sourceTree = "<group>"; };
+		9D8359B524931C1E00A4D7D6 /* HSIPWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HSIPWrapper.m; sourceTree = "<group>"; };
+		9D8359B624931C1E00A4D7D6 /* HSIPWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSIPWrapper.h; sourceTree = "<group>"; };
 		9DA173D52448781100C8D5B2 /* bg1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg1.png; sourceTree = "<group>"; };
 		9DA173E92449A03400C8D5B2 /* HSTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSTest.h; sourceTree = "<group>"; };
 		9DA173EC2449A4F900C8D5B2 /* HSTestCoreManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HSTestCoreManager.h; sourceTree = "<group>"; };
@@ -255,6 +285,7 @@
 		9DF77DC5246CE5460023A228 /* HSLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HSLogFormatter.h; sourceTree = "<group>"; };
 		9DF77DC7246CE5460023A228 /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CocoaLumberjack.framework; sourceTree = "<group>"; };
 		9DF77DC8246CE5460023A228 /* ZMQlib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZMQlib.framework; sourceTree = "<group>"; };
+		9DF7F2D3248248C4002281FE /* CoreDataInserterDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataInserterDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +293,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D8359B724931C1E00A4D7D6 /* libInstantPudding.dylib in Frameworks */,
 				9DF77DCE246CE5460023A228 /* CocoaLumberjack.framework in Frameworks */,
 				9DA1743D244A895A00C8D5B2 /* VISA.framework in Frameworks */,
 				9DF77DCF246CE5470023A228 /* ZMQlib.framework in Frameworks */,
@@ -383,13 +415,13 @@
 			path = CoreDataInjection;
 			sourceTree = "<group>";
 		};
-		9D757A8824629C4C0004E63F /* CoreDataInster */ = {
+		9D757A8824629C4C0004E63F /* CoreDataInserter */ = {
 			isa = PBXGroup;
 			children = (
 				9D757A8924629C6B0004E63F /* CoreDataInserter.h */,
 				9D757A8A24629C6B0004E63F /* CoreDataInserter.m */,
 			);
-			path = CoreDataInster;
+			path = CoreDataInserter;
 			sourceTree = "<group>";
 		};
 		9D757A8C2462A43F0004E63F /* HSEvent */ = {
@@ -455,6 +487,85 @@
 				9D76ADF1244AF4EC001D38B2 /* HSUnitSetting.m */,
 			);
 			path = HSUnitSetting;
+			sourceTree = "<group>";
+		};
+		9D7A12C8247B9C5F00066A76 /* AboutWindowController */ = {
+			isa = PBXGroup;
+			children = (
+				9D7A12C9247B9C5F00066A76 /* AboutWindowController.xib */,
+				9D7A12CA247B9C5F00066A76 /* AboutWindowController.m */,
+				9D7A12CB247B9C5F00066A76 /* ContentViewController */,
+				9D7A12CF247B9C5F00066A76 /* AboutWindowController.h */,
+			);
+			path = AboutWindowController;
+			sourceTree = "<group>";
+		};
+		9D7A12CB247B9C5F00066A76 /* ContentViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9D7A12CC247B9C5F00066A76 /* ContentViewController.h */,
+				9D7A12CD247B9C5F00066A76 /* ContentViewController.xib */,
+				9D7A12CE247B9C5F00066A76 /* ContentViewController.m */,
+			);
+			path = ContentViewController;
+			sourceTree = "<group>";
+		};
+		9D7A12D4247BC03400066A76 /* ExitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9D7A12D5247BC08100066A76 /* ExitViewController.h */,
+				9D7A12D6247BC08100066A76 /* ExitViewController.m */,
+				9D7A12D7247BC08100066A76 /* ExitViewController.xib */,
+			);
+			path = ExitViewController;
+			sourceTree = "<group>";
+		};
+		9D8359A5248E4DC300A4D7D6 /* SecurityManager */ = {
+			isa = PBXGroup;
+			children = (
+				9D8359A9248E51D000A4D7D6 /* CocoaSecurity */,
+				9D8359A6248E507500A4D7D6 /* SecurityManager.h */,
+				9D8359A7248E507500A4D7D6 /* SecurityManager.m */,
+			);
+			path = SecurityManager;
+			sourceTree = "<group>";
+		};
+		9D8359A9248E51D000A4D7D6 /* CocoaSecurity */ = {
+			isa = PBXGroup;
+			children = (
+				9D8359AA248E51D000A4D7D6 /* Base64 */,
+				9D8359AD248E51D000A4D7D6 /* CocoaSecurity.h */,
+				9D8359AE248E51D000A4D7D6 /* CocoaSecurity.m */,
+			);
+			path = CocoaSecurity;
+			sourceTree = "<group>";
+		};
+		9D8359AA248E51D000A4D7D6 /* Base64 */ = {
+			isa = PBXGroup;
+			children = (
+				9D8359AB248E51D000A4D7D6 /* Base64.h */,
+				9D8359AC248E51D000A4D7D6 /* Base64.m */,
+			);
+			path = Base64;
+			sourceTree = "<group>";
+		};
+		9D8359B124931C1E00A4D7D6 /* InstantPuddingPDCA */ = {
+			isa = PBXGroup;
+			children = (
+				9D8359B224931C1E00A4D7D6 /* InstantPudding1245 */,
+				9D8359B524931C1E00A4D7D6 /* HSIPWrapper.m */,
+				9D8359B624931C1E00A4D7D6 /* HSIPWrapper.h */,
+			);
+			path = InstantPuddingPDCA;
+			sourceTree = "<group>";
+		};
+		9D8359B224931C1E00A4D7D6 /* InstantPudding1245 */ = {
+			isa = PBXGroup;
+			children = (
+				9D8359B324931C1E00A4D7D6 /* libInstantPudding.dylib */,
+				9D8359B424931C1E00A4D7D6 /* InstantPudding_API.h */,
+			);
+			path = InstantPudding1245;
 			sourceTree = "<group>";
 		};
 		9DA173D42448781100C8D5B2 /* pictures */ = {
@@ -568,6 +679,7 @@
 		9DA174072449C3CD00C8D5B2 /* HSTestViewController */ = {
 			isa = PBXGroup;
 			children = (
+				9D7A12D4247BC03400066A76 /* ExitViewController */,
 				9D757AA0246534A00004E63F /* PasswordViewController */,
 				9D093BBF24505C0200064AE0 /* ScanView */,
 				9DA1740C244A895900C8D5B2 /* DeviceModules */,
@@ -596,11 +708,12 @@
 		9DA174092449CE6C00C8D5B2 /* HSTestDB */ = {
 			isa = PBXGroup;
 			children = (
-				9D757A8824629C4C0004E63F /* CoreDataInster */,
+				9D757A8824629C4C0004E63F /* CoreDataInserter */,
 				9D757A8424629C460004E63F /* CoreDataInjection */,
 				9D757A7D24628DB60004E63F /* DBRecord */,
 				9D757A7924628D9B0004E63F /* DBUnit */,
 				9D757A81246297ED0004E63F /* HSTestDB.xcdatamodeld */,
+				9DF7F2D3248248C4002281FE /* CoreDataInserterDelegate.h */,
 			);
 			path = HSTestDB;
 			sourceTree = "<group>";
@@ -743,6 +856,9 @@
 		9DA333712445D6A10028E442 /* TestMe */ = {
 			isa = PBXGroup;
 			children = (
+				9D8359B124931C1E00A4D7D6 /* InstantPuddingPDCA */,
+				9D8359A5248E4DC300A4D7D6 /* SecurityManager */,
+				9D7A12C8247B9C5F00066A76 /* AboutWindowController */,
 				9DF77DB6246CE5460023A228 /* HSFormatterLogger */,
 				9D757A93246414400004E63F /* HSValueTransformer */,
 				9D757A57245FEB520004E63F /* ExtendClass */,
@@ -999,7 +1115,10 @@
 			files = (
 				9DA173D62448781100C8D5B2 /* bg1.png in Resources */,
 				9D093BC324505C0200064AE0 /* ScanSN.xib in Resources */,
+				9D7A12D2247B9C5F00066A76 /* ContentViewController.xib in Resources */,
+				9D7A12D9247BC08100066A76 /* ExitViewController.xib in Resources */,
 				9DA17432244A895900C8D5B2 /* DevicesPanelViewController.xib in Resources */,
+				9D7A12D0247B9C5F00066A76 /* AboutWindowController.xib in Resources */,
 				9DA333CB2446AA4E0028E442 /* StationSettingViewController.xib in Resources */,
 				9DA333762445D6A20028E442 /* Assets.xcassets in Resources */,
 				9DA333B82445DC280028E442 /* DashboardViewController.xib in Resources */,
@@ -1038,6 +1157,7 @@
 				9DA173FA2449C20800C8D5B2 /* HSTestLimit.m in Sources */,
 				9DA3337C2445D6A20028E442 /* main.m in Sources */,
 				9DA333742445D6A10028E442 /* AppDelegate.m in Sources */,
+				9D8359B824931C1E00A4D7D6 /* HSIPWrapper.m in Sources */,
 				9DA173EE2449A4F900C8D5B2 /* HSTestCoreManager.m in Sources */,
 				9D757A6C245FEB520004E63F /* CNGridViewItemLayout.m in Sources */,
 				9D757A6E245FEB520004E63F /* CNGridView.m in Sources */,
@@ -1056,6 +1176,8 @@
 				9DA17434244A895900C8D5B2 /* mySerialPanel.m in Sources */,
 				9DA1743B244A895A00C8D5B2 /* myVisaPanel.m in Sources */,
 				9D757A83246297ED0004E63F /* HSTestDB.xcdatamodeld in Sources */,
+				9D8359AF248E51D000A4D7D6 /* Base64.m in Sources */,
+				9D8359B0248E51D000A4D7D6 /* CocoaSecurity.m in Sources */,
 				9DA17435244A895900C8D5B2 /* ORSSerialPacketDescriptor.m in Sources */,
 				9DA17439244A895A00C8D5B2 /* ORSSerialPort.m in Sources */,
 				9DA333E22446F4870028E442 /* MessageWithOkView.m in Sources */,
@@ -1072,13 +1194,16 @@
 				9DA3338E2445D8920028E442 /* LoadViewController.m in Sources */,
 				9D757A8F2462A4540004E63F /* HSEvent.m in Sources */,
 				9D757A8024628DCA0004E63F /* DBRecord.m in Sources */,
+				9D7A12D1247B9C5F00066A76 /* AboutWindowController.m in Sources */,
 				9DA333C3244698A70028E442 /* UnitSettingViewController.m in Sources */,
 				9D757A9F246416A00004E63F /* TestStatusToColorValueTransformer.m in Sources */,
 				9DA333942445D8CE0028E442 /* ContainerViewController.m in Sources */,
 				9D757A8724629C460004E63F /* CoreDataInjection.m in Sources */,
 				9D757A8B24629C6B0004E63F /* CoreDataInserter.m in Sources */,
 				9D757A6B245FEB520004E63F /* parseCSV.m in Sources */,
+				9D7A12D3247B9C5F00066A76 /* ContentViewController.m in Sources */,
 				9DA333CA2446AA4E0028E442 /* StationSettingViewController.m in Sources */,
+				9D7A12D8247BC08100066A76 /* ExitViewController.m in Sources */,
 				9D093BB4244FD3CD00064AE0 /* HSCheckSN.m in Sources */,
 				9D757A782461886D0004E63F /* HSTestplan.m in Sources */,
 				9D757A6D245FEB520004E63F /* NSView+CNGridView.m in Sources */,
@@ -1090,6 +1215,7 @@
 				9DA17438244A895A00C8D5B2 /* ORSSerialPortManager.m in Sources */,
 				9DA1744C244ACE5500C8D5B2 /* HSUnit.m in Sources */,
 				9D757AA5246534A00004E63F /* PasswordViewController.m in Sources */,
+				9D8359A8248E507500A4D7D6 /* SecurityManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1233,6 +1359,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TestMe/InstantPuddingPDCA/InstantPudding1245",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_BUNDLE_IDENTIFIER = weidong.TestMe;
@@ -1256,6 +1386,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/TestMe/InstantPuddingPDCA/InstantPudding1245",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				OTHER_LDFLAGS = "-lstdc++";

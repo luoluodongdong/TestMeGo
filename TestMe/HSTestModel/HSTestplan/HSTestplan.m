@@ -35,7 +35,7 @@
         item.low = [thisLine objectAtIndex:TP_LOW_INDEX];
         item.up = [thisLine objectAtIndex:TP_HIGH_INDEX];
         item.unit = [thisLine objectAtIndex:TP_UNIT_INDEX];
-        item.timeout = [[thisLine objectAtIndex:TP_TIMEOUT_INDEX] intValue];
+        item.timeout = [[thisLine objectAtIndex:TP_TIMEOUT_INDEX] doubleValue];
         item.testKEY = [thisLine objectAtIndex:TP_KEY_INDEX];
         item.testVAL = [thisLine objectAtIndex:TP_VAL_INDEX];
         item.fail_count = [[thisLine objectAtIndex:TP_FAIL_COUNT_INDEX] intValue];

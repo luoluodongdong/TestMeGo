@@ -17,12 +17,22 @@ NS_ASSUME_NONNULL_BEGIN
 {
     IBOutlet NSButton *backBtn;
     IBOutlet NSTextField *titleLabel;
+    
+    IBOutlet NSButton *loopCountBtn;
+    IBOutlet NSTextField *loopValueField;
+    
+    IBOutlet NSButton *pdcaEnableBtn;
+    
 }
 
 @property (weak) id<StationUITaskDelegate> stationUITaskDelegate;
 
 -(void)initView;
+-(void)closeAllLoadDevices;
 -(IBAction)backBtnAction:(id)sender;
+
+-(IBAction)loopCountBtnAction:(id)sender;
+-(IBAction)pdcaEnableBtn:(id)sender;
 
 @end
 

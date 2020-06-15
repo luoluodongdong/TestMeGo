@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property int index;
 
 -(void)initView;
+-(void)closeAllLoadDevices;
 -(IBAction)backBtnAction:(id)sender;
 
 @end

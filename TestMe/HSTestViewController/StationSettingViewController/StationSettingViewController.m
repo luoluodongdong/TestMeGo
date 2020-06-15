@@ -14,6 +14,8 @@
 @interface StationSettingViewController ()
 
 @property DevicesPanelViewController *devicePanel;
+@property NSMutableDictionary *rootConfigDict;
+@property NSMutableDictionary *stationConfigDict;
 
 @end
 
@@ -23,13 +25,42 @@
     [super viewDidLoad];
     // Do view setup here.
     
+    //loopCount
+    NSDictionary *loopCountItem = [self.stationConfigDict objectForKey:@"LoopCount"];
+    BOOL loopCountEnable = [[loopCountItem objectForKey:@"Enable"] boolValue];
+    NSNumber *loopValue = [loopCountItem objectForKey:@"Value"];
+    
+    [loopValueField setStringValue:[[NSString alloc] initWithFormat:@"%@",loopValue]];
+    if (loopCountEnable) {
+        [loopCountBtn setState:YES];
+        [loopValueField setEnabled:NO];
+    }else{
+        [loopCountBtn setState:NO];
+        [loopValueField setEnabled:YES];
+    }
+    //PDCA
+    BOOL pdcaEnable = [[self.stationConfigDict objectForKey:@"PDCA"] boolValue];
+    [pdcaEnableBtn setState:pdcaEnable];
 }
 
 -(IBAction)backBtnAction:(id)sender{
+    [self updateConfigToFile];
     id cvc = self.parentViewController;
     [cvc switchToDashboardView];
 }
+-(void)updateConfigToFile{
+    [self.rootConfigDict setObject:self.stationConfigDict forKey:@"Config"];
+    NSString *portFilePath=[[NSBundle mainBundle] resourcePath];
+    portFilePath =[portFilePath stringByAppendingPathComponent:@"Station.plist"];
+    [self.rootConfigDict writeToFile:portFilePath atomically:NO];
+}
 -(void)initView{
+    NSString *rawfilePath=[[NSBundle mainBundle] resourcePath];
+    NSString *filePath=[rawfilePath stringByAppendingPathComponent:@"Station.plist"];
+    self.rootConfigDict=[[NSMutableDictionary alloc] initWithContentsOfFile:filePath];
+    self.stationConfigDict = [self.rootConfigDict objectForKey:@"Config"];
+    [self printLog:[self.stationConfigDict description]];
+    
     self.devicePanel = [[DevicesPanelViewController alloc] init];
     //self.devicePanel.devicesList = unit_1_cfg;
     self.devicePanel.configFile = @"Station.plist";
@@ -38,6 +69,33 @@
     self.devicePanel.delegate = self;
     [self.devicePanel.view setFrame:NSMakeRect(35, 195, 500, 300)];
     [self.view addSubview:self.devicePanel.view];
+    
+}
+-(void)closeAllLoadDevices{
+    [self.devicePanel closeAllDevices];
+}
+-(IBAction)loopCountBtnAction:(id)sender{
+    BOOL status = [loopCountBtn state];
+    if ([[self getNode:@"LoopCount" key:@"Enable"] boolValue] != status) {
+        NSNumber *value = [NSNumber numberWithInt:[loopValueField intValue]];
+        NSDictionary *item = @{@"Enable":@(status),@"Value":value};
+        [self.stationConfigDict setObject:item forKey:@"LoopCount"];
+        [self printLog:[self.stationConfigDict description]];
+        [loopValueField setEnabled:!status];
+    }
+}
+
+-(IBAction)pdcaEnableBtn:(id)sender{
+    BOOL status = [pdcaEnableBtn state];
+    if ([[self.stationConfigDict objectForKey:@"PDCA"] boolValue] != status) {
+        [self.stationConfigDict setObject:@(status) forKey:@"PDCA"];
+        [self printLog:[self.stationConfigDict description]];
+    }
+}
+
+-(id)getNode:(NSString *)node key:(NSString *)key{
+    NSDictionary *item = [self.stationConfigDict objectForKey:node];
+    return [item objectForKey:key];
 }
 -(NSDictionary *)stationNonUITaskRequest:(HSTestRequest *)request{
     NSString *name = [request name];
@@ -59,6 +117,9 @@
             [NSThread sleepForTimeInterval:0.5];
             return @{@"status":@(1),@"data":@"OK",@"msg":@""};
         }
+    }
+    else if ([function isEqualToString:HSTestFunction_getStationConfig]){
+        return @{@"status":@(1),@"data":self.stationConfigDict,@"msg":@""};
     }
     return @{@"status":@(0),@"data":@"",@"msg":@"unknown function"};
 }

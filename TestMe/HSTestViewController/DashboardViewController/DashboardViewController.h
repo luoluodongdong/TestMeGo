@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DashboardViewController : NSViewController<CNGridViewDataSource, UnitViewItemDelegate>
 {
     IBOutlet NSTextField *alertLabel;
+    IBOutlet NSTextField *messageLabel;
     IBOutlet NSTextField *titleLabel;
     IBOutlet NSPopUpButton *testModeBtn;
     

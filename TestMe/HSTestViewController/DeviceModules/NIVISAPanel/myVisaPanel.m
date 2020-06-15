@@ -132,7 +132,10 @@
     }
     NSLog(@"refresh ports ok");
 }
-
+-(void)closeDevice{
+    closeDevice(_instrFD);
+    closeVISArm();
+}
 -(BOOL)sendCommand:(NSString *)cmd{
     int status = writeDevice(_instrFD, cmd);
     NSLog(@"[MyVisaPanel]send cmd status:%d",status);

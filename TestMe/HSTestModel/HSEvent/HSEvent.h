@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSString * const HSEventHSUnitKey;
+extern NSString * const HSEventCSVdataKey;
 
 extern NSString * const HSEventTestNumberKey;
 extern NSString * const HSEventTestNameKey;

@@ -34,6 +34,7 @@
 
 -(void)initView;
 -(BOOL)autoOpenInstrument;
+-(void)closeDevice;
 -(BOOL)sendCommand:(NSString *)cmd;
 -(BOOL)sendCmd:(NSString *)cmd received:(NSString **)data withTimeOut:(double )to;
 

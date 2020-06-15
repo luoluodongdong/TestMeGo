@@ -9,6 +9,13 @@
 #import "HSLogFormatter.h"
 #import <ZMQlib/ZMQpublisher.h>
 
+#ifdef DEBUG
+
+#else
+#define DEBUG 0
+
+#endif
+
 @interface HSLogFormatter()
 @property ZMQpublisher *publisher;
 @property dispatch_queue_t printLogQueue;
@@ -40,7 +47,12 @@
             [self.publisher publishMessage:logMessage->_message];
         });
     }
-    return formatMsg;
+    if(DEBUG){
+        return formatMsg;
+    }else{
+        return nil;
+    }
+    
     //NSLog(@"%@",logMessage->_message);
     //return [NSString stringWithFormat:@"%@ | %@ @ %@ | %@",
     //        [logMessage fileName], logMessage->_function, @(logMessage->_line), logMessage->_message];

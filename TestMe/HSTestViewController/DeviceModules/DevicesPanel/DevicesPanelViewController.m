@@ -7,6 +7,7 @@
 //
 
 #import "DevicesPanelViewController.h"
+#import "HSLogger.h"
 
 @interface DevicesPanelViewController ()
 @property IBOutlet NSScrollView *scrollView;
@@ -46,6 +47,7 @@
         BOOL enable = [[devCfg objectForKey:@"Enable"] boolValue];
         dev_index +=1;
         if (enable == NO) {
+            HSLogInfo(@"<DPVC> -%d- device:%@ disenabled",self.index,[devCfg objectForKey:@"Name"]);
             continue;
         }
         
@@ -75,9 +77,20 @@
             serialPanel.delegate = self;
             
             [serialPanel initView];
-            if (autoOpenFlag) {
+            if (autoOpenFlag == YES) {
                 BOOL status = [serialPanel autoOpenSerial];
-                NSLog(@"[DPVC]-auto open:%@ status:%hhd",devName,status);
+                HSLogInfo(@"<DPVC> -%d- device:%@ auto opened status:%hhd",self.index,devName,status);
+                if (status == NO) {
+                    NSDictionary *cfgDict=@{@"Type":@"SERIAL",
+                                            @"Status":@(0),
+                                            @"PortName":portName,
+                                            @"Identifier":devName,
+                                            @"Index":@(dev_index),
+                                            @"Description":@"auto open failure!",
+                    };
+                    
+                    [self.delegate eventFromDevicePanel:@{@"event":@"error",@"content":cfgDict} identifier:self.panelIdentifier];
+                }
             }
             [serialPanel.view setFrame:NSMakeRect(x, y, 500, 100)];
             [contentView addSubview:serialPanel.view];
@@ -101,7 +114,7 @@
             [visaPanel initView];
             if (autoOpenFlag) {
                 BOOL status = [visaPanel autoOpenInstrument];
-                NSLog(@"[DPVC]-auto open:%@ status:%hhd",devName,status);
+                HSLogInfo(@"<DPVC> -%d- device:%@ auto opened status:%hhd",self.index,devName,status);
             }
             [visaPanel.view setFrame:NSMakeRect(x, y, 500, 100)];
             [contentView addSubview:visaPanel.view];
@@ -127,7 +140,8 @@
             
             if (autoOpenFlag) {
                 BOOL status = [socketPanel autoStartSocket];
-                NSLog(@"[DPVC]-auto open:%@ status:%hhd",devName,status);
+                HSLogInfo(@"<DPVC> -%d- device:%@ auto opened status:%hhd",self.index,devName,status);
+                
             }
             [socketPanel.view setFrame:NSMakeRect(x, y, 500, 100)];
             [contentView addSubview:socketPanel.view];
@@ -137,6 +151,13 @@
         y=y - 100;
     }
     [self.scrollView setDocumentView:contentView];
+}
+-(void)closeAllDevices{
+    for (NSString *devName in self.loadDevicesDict) {
+        id devicePanel = [self.loadDevicesDict objectForKey:devName];
+        [devicePanel closeDevice];
+        HSLogInfo(@"<DPVC> -%d- device panel:%@ closed",self.index,devicePanel);
+    }
 }
 -(void)saveConfig:(NSDictionary *)config{
     int index = [[config objectForKey:@"Index"] intValue];

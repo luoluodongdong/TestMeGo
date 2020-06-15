@@ -20,6 +20,7 @@
 @property UnitDetailViewController *unitDetailVC;
 @property MessageWithOkView *messageWithOkView;
 @property DialogWithOkViewController *dialogWithOkView;
+@property ExitViewController *exitVC;
 @property NSViewController *currentVC;
 
 @property NSMutableArray *unitSettingArr;
@@ -37,16 +38,16 @@
     self.popoverSemaphore = dispatch_semaphore_create(0x0);
     self.threadLock = [[NSLock alloc] init];
     self.unitSettingArr = [NSMutableArray array];
-
-    //[self presentViewControllerAsSheet:self.dashboardVC];
-}
--(void)viewWillAppear{
-    [self printLog:[NSString stringWithFormat:@"self.loginFlag:%hhd",self.loginFlag]];
+    NSLog(@"self.loginFlag:%hhd",self.loginFlag);
     if (self.loginFlag == YES) {
         [self switchToLoginView];
     }else{
         [self switchToLoadView];
     }
+    
+}
+-(void)viewWillAppear{
+    
 }
 -(void)viewWillDisappear{
     
@@ -76,52 +77,75 @@
     self.currentVC = self.loadVC;
 
     [NSThread detachNewThreadWithBlock:^{
-        [NSThread sleepForTimeInterval:0.2];
-        [self.loadVC updateProgressMsg:@"Init...test core manager..." indicatorValue:20];
-        [self loadTestCoreManager];
-        [NSThread sleepForTimeInterval:0.1];
-        [self.loadVC updateProgressMsg:@"Init...station setting view..." indicatorValue:40];
+        [self.loadVC updateProgressMsg:@"Init...logging..." indicatorValue:10];
+        [HSLogger initWithFile:YES zmq:@"127.0.0.1:10052" level:LOG_LEVEL_INFO];
+        [NSThread sleepForTimeInterval:0.05];
+        [self.loadVC updateProgressMsg:@"Init...verify security..." indicatorValue:20];
+        BOOL result = [self verifyFolderSecurity];
+        if (result == NO) {
+            return;
+        }
+        [self.loadVC updateProgressMsg:@"Init...station setting view..." indicatorValue:30];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self loadStationSettingView];
         });
-        [NSThread sleepForTimeInterval:0.1];
+        [NSThread sleepForTimeInterval:0.05];
+        [self.loadVC updateProgressMsg:@"Init...test core manager..." indicatorValue:40];
+        [self loadTestCoreManager];
+        [NSThread sleepForTimeInterval:0.05];
         [self.loadVC updateProgressMsg:@"Init...dashboard view..." indicatorValue:60];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self loadDashboardView];
         });
-        [NSThread sleepForTimeInterval:0.1];
+        [NSThread sleepForTimeInterval:0.05];
         [self.loadVC updateProgressMsg:@"Init...all unit setting views..." indicatorValue:70];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self loadUnitSettingViews];
         });
-        [NSThread sleepForTimeInterval:0.1];
+        [NSThread sleepForTimeInterval:0.05];
         [self.loadVC updateProgressMsg:@"Init...all unit detail views..." indicatorValue:80];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self loadUnitDetailView];
         });
-        [NSThread sleepForTimeInterval:0.1];
+        [NSThread sleepForTimeInterval:0.05];
         [self.loadVC updateProgressMsg:@"Init...scan view..." indicatorValue:90];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self loadScanSnView];
         });
-        [NSThread sleepForTimeInterval:0.1];
+        [NSThread sleepForTimeInterval:0.05];
         [self.loadVC updateProgressMsg:@"Done...all progress finished" indicatorValue:100];
-        [NSThread sleepForTimeInterval:0.5];
+        [NSThread sleepForTimeInterval:0.2];
     }];
     
+}
+-(BOOL)verifyFolderSecurity{
+    NSString *rawfilePath=[[NSBundle mainBundle] resourcePath];
+    NSString *filePath=[rawfilePath stringByAppendingPathComponent:@"/HSArchives/Testplan"];
+    NSError *error = NULL;
+    BOOL status = [SecurityManager CheckSecurityFolder:filePath error:&error];
+    HSLogInfo(@"check security result:%hhd",status);
+    if (status == NO) {
+        NSString *msg = [NSString stringWithFormat:@"[Type]:Error\n[Identifier]:security problem\n[Description]:%@",[error localizedDescription]];
+        NSDictionary *config = @{@"title":@"VerifySecurity",@"message":msg,@"type":@"error"};
+        [NSThread detachNewThreadWithBlock:^{
+            [self showDialogWithOK:config];
+        }];
+        return NO;
+    }
+    return YES;
 }
 -(void)loadTestCoreManager{
     self.testCoreManager = [[HSTestCoreManager alloc] init];
     self.testCoreManager.stationUITaskDelegate = self;
     [self.testCoreManager initTestCore];
+    //StationSetting - delegate -> StationNonUITaskDelegate -> StationSettingViewController
+    self.testCoreManager.stationSetting.delegate = self.stationSettingVC;
+    [self.testCoreManager updateStationConfigs];
 }
 -(void)loadStationSettingView{
     self.stationSettingVC = [[StationSettingViewController alloc] init];
     self.stationSettingVC.stationUITaskDelegate = self;
     [self.stationSettingVC initView];
-    //StationSetting - delegate -> StationNonUITaskDelegate -> StationSettingViewController
-    self.testCoreManager.stationSetting.delegate = self.stationSettingVC;
-    //[NSThread sleepForTimeInterval:2.0];
     [self printLog:@"load station setting view done"];
 }
 -(void)loadDashboardView{
@@ -157,7 +181,7 @@
     self.scanSnVC.delegate = self;
 }
 -(void)switchToDashboardView{
-    
+    [self.testCoreManager updateStationConfigs];
     [self.currentVC.view removeFromSuperview];
     [self.currentVC removeFromParentViewController];
     self.dashboardVC.view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
@@ -206,6 +230,12 @@
     [self addChildViewController:self.stationSettingVC];
     self.currentVC = self.stationSettingVC;
 }
+-(void)switchToExitView{
+    self.exitVC = [[ExitViewController alloc] init];
+    self.exitVC.delegate = self;
+    
+    [self presentViewControllerAsSheet:self.exitVC];
+}
 -(void)showPasswordView{
     dispatch_async(dispatch_get_main_queue(), ^{
         PasswordViewController *passwordVC = [[PasswordViewController alloc] init];
@@ -225,7 +255,7 @@
 }
 #pragma mark -- Delegate - SubViewController
 -(void)event:(NSDictionary *)event fromSubView:(NSString *)name{
-    NSLog(@"[CVC]event:%@ from:%@",event,name);
+    [self printLog:[NSString stringWithFormat:@"sub view event:%@ from:%@",event,name]];
     if ([name isEqualToString:@"LoadView"]) { //load view finish progress
         dispatch_async(dispatch_get_main_queue(), ^{
             [self switchToDashboardView];
@@ -242,6 +272,34 @@
             [self.testCoreManager startWithScnSNs:[event objectForKey:@"content"]];
         }
     }
+    else if([name isEqualToString:@"ExitView"]){
+        NSString *type = [event objectForKey:@"type"];
+        if ([type isEqualToString:@"exit"]) {
+            [self executeExitProcess];
+        }else if([type isEqualToString:@"finish"]){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [NSApp terminate:self];
+            });
+        }
+    }
+}
+
+-(void)executeExitProcess{
+    [NSThread detachNewThreadWithBlock:^{
+        [self.exitVC updateProgressMsg:@"Close station devices..." indicatorValue:10];
+        [self.stationSettingVC closeAllLoadDevices];
+        [NSThread sleepForTimeInterval:0.05];
+        [self.exitVC updateProgressMsg:@"Close all unit devices..." indicatorValue:30];
+        for (UnitSettingViewController *uvc in self.unitSettingArr) {
+            [uvc closeAllLoadDevices];
+        }
+        [NSThread sleepForTimeInterval:0.05];
+        [self.exitVC updateProgressMsg:@"exit process part 3" indicatorValue:60];
+        [NSThread sleepForTimeInterval:0.05];
+        [self.exitVC updateProgressMsg:@"exit process part 4" indicatorValue:80];
+        [NSThread sleepForTimeInterval:0.05];
+        [self.exitVC updateProgressMsg:@"exit process part 5" indicatorValue:100];
+    }];
 }
 
 -(void)showMessageWithOK:(NSDictionary *)config{

@@ -11,6 +11,8 @@
 //unit setting function
 #define HSTestFunction_dmm @"dmm"
 #define HSTestFunction_unitSettingDialog @"UnitSetting-dialog"
+//with Arduino board test
+#define HSTestFunction_arduino @"arduino"
 
 //unit engine function
 #define HSTestFunction_calculate @"calculate"
@@ -18,6 +20,7 @@
 //station setting function
 #define HSTestFunction_fixture @"fixture"
 #define HSTestFunction_stationSettingDialog @"StationSetting-dialog"
+#define HSTestFunction_getStationConfig @"stationConfig"
 
 //station UI function
 #define HSTestFunction_asyncDialog @"asyncDialog"

@@ -39,6 +39,9 @@
     [self.devicePanel.view setFrame:NSMakeRect(35, 195, 500, 300)];
     [self.view addSubview:self.devicePanel.view];
 }
+-(void)closeAllLoadDevices{
+    [self.devicePanel closeAllDevices];
+}
 #pragma mark -- Delegate - UnitNonUITaskDelegate
 -(NSDictionary *)unitNonUITaskRequest:(HSTestRequest *)request{
     NSString *name = [request name];
@@ -52,9 +55,39 @@
         };
         return response;
     }
+    else if([function isEqualToString:HSTestFunction_arduino]){
+        MySerialPanel *serial = [self.devicePanel.loadDevicesDict objectForKey:@"Arduino"];
+        if (serial == nil) {
+            return @{
+                @"status":@(0),
+                @"data":@"",
+                @"msg":@"unknown function"
+            };
+        }
+        NSString *cmd = [request.params objectForKey:@"param1"];
+        cmd = [cmd stringByAppendingString:@"\r\n"];
+        NSString *recvString = @"";
+        double timeout = [[request.action objectForKey:@"timeout"] doubleValue];
+        BOOL status = [serial sendCmd:cmd received:&recvString withTimeOut:timeout];
+        if (status) {
+            recvString = [recvString stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+            recvString = [recvString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            return @{
+                @"status":@(1),
+                @"data":recvString,
+                @"msg":@""
+            };
+        }else{
+            return @{
+                @"status":@(0),
+                @"data":@"",
+                @"msg":@"send command fail"
+            };
+        }
+    }
     return nil;
 }
-#pragma mark -- Device Panel Delegate
+#pragma mark -- Device Panel View Controller Delegate
 -(void)receivedFromDevicePanel:(NSString *)data identifier:(NSString *)identifier{
     NSString *log = [NSString stringWithFormat:@"received:%@ identifier:%@",data,identifier];
     [self printLog:log];
